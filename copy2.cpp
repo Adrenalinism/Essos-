@@ -8,29 +8,38 @@
  * This software is provided "as is" without express or implied
  * warranty, and with no claim as to its suitability for any purpose.
  */
-#include "algostuff.hpp"
+#include <iostream>
+#include <vector>
+#include <list>
+#include <deque>
+#include <algorithm>
 using namespace std;
 
 int main()
 {
-    /* initialize source collection with ``..........abcdef..........''
-     */
-    vector<char> source(10,'.');
-    for (int c='a'; c<='f'; c++) {
-        source.push_back(c);
+    list<int>   coll1;
+    vector<int> coll2;
+
+    // insert elements from 1 to 9
+    for (int i=1; i<=9; ++i) {
+        coll1.push_back(i);
     }
-    source.insert(source.end(),10,'.');
-    PRINT_ELEMENTS(source,"source: ");
 
-    // copy all letters three elements in front of the 'a'
-    vector<char> c1(source.begin(),source.end());
-    copy (c1.begin()+10, c1.begin()+16,  // source range
-          c1.begin()+7);                 // destination range
-    PRINT_ELEMENTS(c1,"c1:     ");
+    // resize destination to have enough room for the overwriting algorithm
+    coll2.resize (coll1.size());
 
-    // copy all letters three elements behind the 'f'
-    vector<char> c2(source.begin(),source.end());
-    copy_backward (c2.begin()+10, c2.begin()+16,  // source range
-                   c2.begin()+19);                // destination range
-    PRINT_ELEMENTS(c2,"c2:     ");
+    /* copy elements from first into second collection
+     * - overwrites existing elements in destination
+     */
+    copy (coll1.begin(), coll1.end(),     // source
+          coll2.begin());                 // destination
+
+    /* create third collection with enough room
+     * - initial size is passed as parameter
+     */
+    deque<int> coll3(coll1.size());
+
+    // copy elements from first into third collection
+    copy (coll1.begin(), coll1.end(),     // source
+          coll3.begin());                 // destination
 }
