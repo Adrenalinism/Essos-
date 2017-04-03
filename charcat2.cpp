@@ -9,9 +9,24 @@
  * warranty, and with no claim as to its suitability for any purpose.
  */
 #include <iostream>
+#include <iterator>
+using namespace std;
 
-int main ()
+int main()
 {
-    // copy all standard input to standard output
-    std::cin >> std::noskipws >> std::cout.rdbuf();
+    // input stream buffer iterator for cin
+    istreambuf_iterator<char> inpos(cin);
+
+    // end-of-stream iterator
+    istreambuf_iterator<char> endpos;
+
+    // output stream buffer iterator for cout
+    ostreambuf_iterator<char> outpos(cout);
+
+    // while input iterator is valid
+    while (inpos != endpos) {
+        *outpos = *inpos;    // assign its value to the output iterator
+        ++inpos;
+        ++outpos;
+    }
 }
