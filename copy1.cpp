@@ -8,25 +8,37 @@
  * This software is provided "as is" without express or implied
  * warranty, and with no claim as to its suitability for any purpose.
  */
-#include <iostream>
-#include <vector>
-#include <list>
-#include <algorithm>
+#include "algostuff.hpp"
 using namespace std;
 
 int main()
 {
-    list<int>   coll1;
-    vector<int> coll2;
+    vector<int> coll1;
+    list<int> coll2;
 
-    // insert elements from 1 to 9
-    for (int i=1; i<=9; ++i) {
-        coll1.push_back(i);
-    }
+    INSERT_ELEMENTS(coll1,1,9);
 
-    // RUNTIME ERROR:
-    // - overwrites nonexisting elements in the destination
-    copy (coll1.begin(), coll1.end(),     // source
-          coll2.begin());                 // destination
-    //...
+    /* copy elements of coll1 into coll2
+     * - use back inserter to insert instead of overwrite
+     */
+    copy (coll1.begin(), coll1.end(),         // source range
+          back_inserter(coll2));              // destination range
+
+    /* print elements of coll2
+     * - copy elements to cout using an ostream iterator
+     */
+    copy (coll2.begin(), coll2.end(),         // source range
+          ostream_iterator<int>(cout," "));   // destination range
+    cout << endl;
+
+    /* copy elements of coll1 into coll2 in reverse order
+     * - now overwriting
+     */
+    copy (coll1.rbegin(), coll1.rend(),       // source range
+          coll2.begin());                     // destination range
+
+    // print elements of coll2 again
+    copy (coll2.begin(), coll2.end(),         // source range
+          ostream_iterator<int>(cout," "));   // destination range
+    cout << endl;
 }
